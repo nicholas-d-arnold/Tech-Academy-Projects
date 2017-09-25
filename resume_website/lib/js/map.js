@@ -66,7 +66,7 @@ var default_style = {
 
 /** Load Nat Geo Map - returns Leaflet Tile Layer **/
 function loadNatGeoLayer() {
-	var esriNatGeoURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}';
+	var esriNatGeoURL = 'https://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}';
 	var natGeoLayer = new L.TileLayer(esriNatGeoURL, {
 		attribution : 'Map data &copy; <a href="http://www.esri.com" target="_blank">ESRI</a>',
 		maxZoom : max_zoom,
@@ -77,7 +77,7 @@ function loadNatGeoLayer() {
 
 /** Load World Imagery Map - returns Leaflet Tile layer **/
 function loadImageryLayer() {
-	var esriImageryURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+	var esriImageryURL = 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 	var oceanFloorLayer = new L.TileLayer(esriImageryURL, {
 		attribution : 'Map data &copy; <a href="http://www.esri.com" target="_blank">ESRI</a>',
 		maxZoom : max_zoom,
@@ -88,7 +88,7 @@ function loadImageryLayer() {
 
 /** Load World Topo Map - returns Leaflet Tile layer **/
 function loadTopoLayer() {
-	var esriTopoURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
+	var esriTopoURL = 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
 	var worldTopoLayer = new L.TileLayer(esriTopoURL, {
 		attribution : 'Map data &copy; <a href="http://www.esri.com" target="_blank">ESRI</a>',
 		maxZoom : max_zoom,
@@ -118,23 +118,23 @@ function init() {
 
 
 	var markersLived = [
-		['CC0033',43.2138, -123.343014, 'Roseburg, OR','2014 - 2016'],
-		['CC0033',45.4242, -117.2769, 'Enterprise, OR','2013 - 2014'],
-		['CC0033',40.1933, -85.3881, 'Muncie, IN', '1998 - 2007'],
-		['CC0033',39.6567, -78.9272, 'Frostburg, MD','2007 - 2012'],
-		['CC0033',39.1622, -86.5292, 'Bloomington, IN','1989 - 1992'],
-		['CC0033',33.4625, -88.8200, 'Starkville, MS','1992 - 1998'],		
-		['CC0033',45.5200, -122.6819, 'Portland, OR','2012, 2013, 2017 - present'],
-		['CC0033',44.8531, -123.1914, 'Independence, OR','2012 - 2013'],
-		['CC0033',46.7300, -117.0000, 'Moscow, ID', '1986 - 1989'],
-		['CC0033',45.360892, -122.642617, 'West Linn, OR','2016 - 2017']
+		['CC0033',43.212956, -123.337581, 'Roseburg, OR','2014 - 2016'],
+		['CC0033',45.426168, -117.273043, 'Enterprise, OR','2013 - 2014'],
+		['CC0033',40.193377, -85.386360, 'Muncie, IN', '1998 - 2007'],
+		['CC0033',39.658142, -78.928357, 'Frostburg, MD','2007 - 2012'],
+		['CC0033',39.165325, -86.526386, 'Bloomington, IN','1989 - 1992'],
+		['CC0033',33.450400, -88.818387, 'Starkville, MS','1992 - 1998'],		
+		['CC0033',45.523062, -122.676481, 'Portland, OR','2012, 2013, 2017 - present'],
+		['CC0033',44.851231, -123.186766, 'Independence, OR','2012 - 2013'],
+		['CC0033',46.732388, -117.000165, 'Moscow, ID', '1986 - 1989'],
+		['CC0033',45.365676, -122.612314, 'West Linn, OR','2016 - 2017']
 
 	];
 
 	var markerClusters = L.markerClusterGroup(); 
 
 	for (var i = 0; i < markersLived.length; i++) {
-		marker = new L.marker([markersLived[i][1],markersLived[i][2]],{icon: greenIcon})
+		marker = new L.marker([markersLived[i][1],markersLived[i][2]])
 			.bindPopup('<center><strong>' + markersLived[i][3] + '</strong><br>' + markersLived[i][4] + '</center>')
 			//.addTo(map);
 		markerClusters.addLayer(marker);

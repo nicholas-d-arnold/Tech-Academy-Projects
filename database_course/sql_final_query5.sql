@@ -5,9 +5,8 @@ CREATE PROCEDURE dbo.uspGetQuery5
 AS
 BEGIN TRY
 /* Query 5 */
-SELECT branch_name AS 'Branch', SUM(book_copies_no_of_copies) AS 'Number of Loaned Books'  FROM tbl_book_copies
-	INNER JOIN tbl_library_branch branch ON branch.branch_id = tbl_book_copies.book_copies_branch_id
-	INNER JOIN tbl_book ON tbl_book.book_id = tbl_book_copies.book_copies_book_id 
+SELECT branch_name AS 'Branch', COUNT(branch_name) AS 'Total Book Loaned' FROM tbl_library_branch
+	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_branch_id = tbl_library_branch.branch_id 
 GROUP BY 
 	branch_name
 ;

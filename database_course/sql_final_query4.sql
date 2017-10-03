@@ -6,7 +6,6 @@ AS
 BEGIN TRY
 /* Query 4 */
 SELECT DISTINCT(book_title) AS 'Book', borrower_name, borrower_address FROM tbl_library_branch
-	INNER JOIN tbl_book_copies ON tbl_book_copies.book_copies_branch_id = tbl_library_branch.branch_id 
 	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_branch_id = tbl_library_branch.branch_id
 	INNER JOIN tbl_book ON tbl_book.book_id = tbl_book_loans.book_loan_book_id
 	INNER JOIN tbl_borrower ON tbl_borrower.borrower_card_no = tbl_book_loans.book_loan_card_no

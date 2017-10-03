@@ -5,11 +5,9 @@ CREATE PROCEDURE dbo.uspGetQuery3
 AS
 BEGIN TRY
 /* Query 3 --note that all borrowers have books checked out*/
-SELECT borrower_name AS 'Borrower', book_copies_no_of_copies As 'Copies Out' FROM tbl_borrower
+SELECT borrower_name AS 'Borrower', COUNT(borrower_card_no) AS 'Books Checked Out' FROM tbl_borrower
 	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_card_no = tbl_borrower.borrower_card_no
-	INNER JOIN tbl_book_copies ON tbl_book_copies.book_copies_book_id = tbl_book_loans.book_loan_book_id
-WHERE
-	book_copies_no_of_copies = 0
+GROUP BY borrower_name
 ;
 END TRY
 BEGIN CATCH

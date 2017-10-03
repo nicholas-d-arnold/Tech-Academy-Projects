@@ -5,11 +5,11 @@ CREATE PROCEDURE dbo.uspGetQuery6
 AS
 BEGIN TRY
 /* Query 6 */
-SELECT DISTINCT(borrower_name) AS 'Borrower', book_copies_no_of_copies As 'Copies Out', borrower_address AS 'Address' FROM tbl_borrower
+SELECT borrower_name,borrower_address, COUNT(tbl_book_loans.book_loan_card_no) AS 'Num Books' FROM tbl_borrower
 	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_card_no = tbl_borrower.borrower_card_no
-	INNER JOIN tbl_book_copies ON tbl_book_copies.book_copies_book_id = tbl_book_loans.book_loan_book_id
-WHERE
-	book_copies_no_of_copies > 5
+GROUP BY 
+	borrower_name, borrower_address 
+HAVING COUNT(tbl_book_loans.book_loan_card_no) > 5
 ;
 END TRY
 BEGIN CATCH

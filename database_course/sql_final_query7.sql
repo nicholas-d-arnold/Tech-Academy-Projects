@@ -7,9 +7,9 @@ BEGIN TRY
 /* Query 7 */
 SELECT DISTINCT(book_title) AS 'Book Title:', book_copies_no_of_copies AS 'Number of Copies' FROM tbl_book
 	INNER JOIN tbl_book_authors ON tbl_book_authors.author_book_id = tbl_book.book_id
-	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_book_id = tbl_book.book_id
-	INNER JOIN tbl_library_branch ON tbl_library_branch.branch_id = tbl_book_loans.book_loan_branch_id
 	INNER JOIN tbl_book_copies ON tbl_book_copies.book_copies_book_id = tbl_book.book_id
+	INNER JOIN tbl_library_branch ON tbl_library_branch.branch_id = tbl_book_copies.book_copies_branch_id
+	
 WHERE
 	branch_name = 'Central'
 	AND

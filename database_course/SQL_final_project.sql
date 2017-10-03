@@ -264,8 +264,7 @@ SELECT * FROM tbl_book book
 */
 
 
-/* Begin Stored Procedure Comment
-
+/* Begin Stored Procedure Comment 
 /* STORED PROCEDURES */
 
 /* Query 1 */
@@ -287,16 +286,13 @@ WHERE
 ;
 
 /* Query 3 --note that all borrowers have books checked out*/
-SELECT borrower_name AS 'Borrower', book_copies_no_of_copies As 'Copies Out' FROM tbl_borrower
+SELECT borrower_name AS 'Borrower', COUNT(borrower_card_no) AS 'Books Checked Out' FROM tbl_borrower
 	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_card_no = tbl_borrower.borrower_card_no
-	INNER JOIN tbl_book_copies ON tbl_book_copies.book_copies_book_id = tbl_book_loans.book_loan_book_id
-WHERE
-	book_copies_no_of_copies = 0
+GROUP BY borrower_name
 ;
 
 /* Query 4 */
 SELECT DISTINCT(book_title) AS 'Book', borrower_name, borrower_address FROM tbl_library_branch
-	INNER JOIN tbl_book_copies ON tbl_book_copies.book_copies_branch_id = tbl_library_branch.branch_id 
 	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_branch_id = tbl_library_branch.branch_id
 	INNER JOIN tbl_book ON tbl_book.book_id = tbl_book_loans.book_loan_book_id
 	INNER JOIN tbl_borrower ON tbl_borrower.borrower_card_no = tbl_book_loans.book_loan_card_no
@@ -307,27 +303,26 @@ WHERE
 ;
 
 /* Query 5 */
-SELECT branch_name AS 'Branch', SUM(book_copies_no_of_copies) AS 'Number of Loaned Books'  FROM tbl_book_copies
-	INNER JOIN tbl_library_branch branch ON branch.branch_id = tbl_book_copies.book_copies_branch_id
-	INNER JOIN tbl_book ON tbl_book.book_id = tbl_book_copies.book_copies_book_id 
+SELECT branch_name AS 'Branch', COUNT(branch_name) AS 'Total Book Loaned' FROM tbl_library_branch
+	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_branch_id = tbl_library_branch.branch_id 
 GROUP BY 
 	branch_name
 ;
 
 /* Query 6 */
-SELECT DISTINCT(borrower_name) AS 'Borrower', book_copies_no_of_copies As 'Copies Out', borrower_address AS 'Address' FROM tbl_borrower
+SELECT borrower_name,borrower_address, COUNT(tbl_book_loans.book_loan_card_no) AS 'Num Books' FROM tbl_borrower
 	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_card_no = tbl_borrower.borrower_card_no
-	INNER JOIN tbl_book_copies ON tbl_book_copies.book_copies_book_id = tbl_book_loans.book_loan_book_id
-WHERE
-	book_copies_no_of_copies > 5
+GROUP BY 
+	borrower_name, borrower_address 
+HAVING COUNT(tbl_book_loans.book_loan_card_no) > 5
 ;
 
 /* Query 7 */
 SELECT DISTINCT(book_title) AS 'Book Title:', book_copies_no_of_copies AS 'Number of Copies' FROM tbl_book
 	INNER JOIN tbl_book_authors ON tbl_book_authors.author_book_id = tbl_book.book_id
-	INNER JOIN tbl_book_loans ON tbl_book_loans.book_loan_book_id = tbl_book.book_id
-	INNER JOIN tbl_library_branch ON tbl_library_branch.branch_id = tbl_book_loans.book_loan_branch_id
 	INNER JOIN tbl_book_copies ON tbl_book_copies.book_copies_book_id = tbl_book.book_id
+	INNER JOIN tbl_library_branch ON tbl_library_branch.branch_id = tbl_book_copies.book_copies_branch_id
+	
 WHERE
 	branch_name = 'Central'
 	AND
@@ -335,4 +330,4 @@ WHERE
 ;
 
 
-End Stored Procedure Comment */
+ End Stored Procedure Comment */

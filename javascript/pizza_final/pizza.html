@@ -324,7 +324,6 @@
     var g_pizza_sauce;
     var g_pizza_veggies;
     var g_pizza_total = 0;
-
     var ord_pizza_size;
     var ord_pizza_crust;
     var ord_pizza_toppings;
@@ -333,6 +332,7 @@
     var ord_pizza_veggies;
     var ord_pizza_total;
 
+    // create Pizza object for order.
     function Pizza(size,crust,toppings,cheese,sauce,veggies) {
       this.size = size;
       this.crust = crust;
@@ -341,40 +341,8 @@
       this.sauce = sauce;
       this.veggies = veggies;
     }
-/*
-    function calculateSizePrice(pizza) {
-      if (pizza.size == 'Personal') {
-        return 6
-      }
-      else if (pizza.size == 'Medium') {
-        return 10
-      }
-      else if (pizza.size == 'Large') {
-        return 14
-      }
-      else { // if Pizza is Extra Large
-        return 16
-      }
-    }
 
-    function calculateCheesePrice(pizza) {
-      if (pizza.cheese == 'Extra Cheese') {
-        return 3;
-      }
-      else { // Any other cheese
-        return 0
-      }
-    }
-
-    function calculateCrustPrice(pizza) {
-      if (pizza.crust == 'Cheese Stuffed Crust') {
-        return 3;
-      }
-      else { // Any other crust
-        return 0
-      }
-    }
-*/
+    // calculate checkbox addition prices
     function calculateToppingOrVeggiePrice(topping) {
         var topping_quantity = topping.length
         var topping_price;
@@ -386,60 +354,8 @@
         }
         return topping_price;
     }
-/*
-    function calculatePrice(pizza) {
-      
-      // TOTAL PRICE Variable
-      var price;
 
-      // Calculate Size Price       
-
-      var size_price = calculateSizePrice(pizza);
-      console.log(size_price);
-      if (size_price === undefined) {
-        console.log('undef')
-        size_price = 0;
-      }
-      // Calculate Meat Toppings Price
-      var meat_topping_price = calculateToppingOrVeggiePrice(pizza.toppings);
-      if (meat_topping_price === undefined) {
-        meat_topping_price = 0;
-      }
-
-      // Calculate Veggie Toppings Price
-      var veggie_topping_price = calculateToppingOrVeggiePrice(pizza.veggies);
-      if (veggie_topping_price === undefined) {
-        veggie_topping_price = 0;
-      }
-
-      // Calculate Cheese Toppings Price
-      var cheese_price = calculateCheesePrice(pizza)
-      if (cheese_price === undefined) {
-        cheese_price = 0;
-      }
-
-      // Calculate Crust Price
-      var crust_price = calculateCrustPrice(pizza);
-      if (crust_price === undefined) {
-        crust_price = 0;
-      }
-
-      price = size_price + crust_price + cheese_price + meat_topping_price + veggie_topping_price
-      console.log(price)
-      /*
-      console.log("size price: " + size_price);
-      console.log("crust price: " + crust_price);
-      console.log("quantity: " + quantity);
-      console.log("meat topping price: " + meat_topping_price);
-      console.log("cheese price: " + cheese_price); 
-      console.log("veggie topping price: " + veggie_topping_price)
-      console.log("Total Price: " + price)
-      
-    }
-*/
-    var pizza_order = new Pizza(1,'Extra Large','Plain Crust',['Pepperoni'],'Regular','White Sauce',['Pineapple']);
-
-
+    // calculate the total current price (updates when ingredients are added)
     function calcTotal(veggies,sauce,cheese,toppings,crust,size) {
       if (veggies === undefined) {
         veggies = 0
@@ -465,77 +381,120 @@
 
     // Event Handlers
     $('.pizza_size').click(function() {
+        // Get values from front-end
         var pizza_size = $(this).attr('value');
         var pizza_cost = parseInt($(this).attr('cost'));
+
+        // assign values to globals
         g_pizza_size = pizza_cost;
         ord_pizza_size = pizza_size
+
+        // calculate total price
         var total = calcTotal(g_pizza_veggies,g_pizza_sauce,g_pizza_cheese,g_pizza_toppings,g_pizza_crust,g_pizza_size)
 
+        // print info to the Check pane
         $('.tablerow').html('<td class="item_desc">' + pizza_size + '</td><td class="item_price">$' + pizza_cost + '.00</td>')
         $('.total_row').html('<td class="item_desc">Total</td><td class="item_price">$' + total + '.00</td>');
     });
+
     $('.cheese').click(function() {
+        // Get values from front-end
         var cheese_type = $(this).attr('value');
         var cheese_cost = parseInt($(this).attr('cost'));
+
+        // assign values to globals
         g_pizza_cheese = cheese_cost
         ord_pizza_cheese = cheese_type
+
+        // calculate total price
         var total = calcTotal(g_pizza_veggies,g_pizza_sauce,g_pizza_cheese,g_pizza_toppings,g_pizza_crust,g_pizza_size)
 
+        // print info to Check pane
         $('.cheese_row').html('<td class="item_desc">' + cheese_type + '</td><td class="item_price">$' + cheese_cost + '.00</td>')
         $('.total_row').html('<td class="item_desc">Total</td><td class="item_price">$' + total + '.00</td>');
     });
     $('.crust').click(function() {
+        // Get values from front-end
         var crust_type = $(this).attr('value');
         var crust_cost = parseInt($(this).attr('cost'));
+
+        // assign values to globals
         g_pizza_crust = crust_cost
         ord_pizza_crust = crust_type
+
+        // calculate total price
         var total = calcTotal(g_pizza_veggies,g_pizza_sauce,g_pizza_cheese,g_pizza_toppings,g_pizza_crust,g_pizza_size)
 
+        // print info to Check pane
         $('.crust_row').html('<td class="item_desc">' + crust_type + '</td><td class="item_price">$' + crust_cost + '.00</td>')
         $('.total_row').html('<td class="item_desc">Total</td><td class="item_price">$' + total + '.00</td>');
     });
     $('.sauce').click(function() {
+        // Get values from front-end
         var sauce_type = $(this).attr('value');
+
+        // assign values to globals
         ord_pizza_sauce = sauce_type;
+
+        // calclate total price
         var total = calcTotal(g_pizza_veggies,g_pizza_sauce,g_pizza_cheese,g_pizza_toppings,g_pizza_crust,g_pizza_size)
+
+        // print info to Check pane
         $('.sauce_row').html('<td class="item_desc">' + sauce_type + '</td><td class="item_price">$0.00</td>')
         $('.total_row').html('<td class="item_desc">Total</td><td class="item_price">$' + total + '.00</td>');
     });
+
     $('.meat').click(function() {
-        
+        // Get values from front-end
         var allVals = [];
         $('.meat :checked').each(function() {
            allVals.push($(this).val());
         });
+        
+        // calculate meat cost
         var meat_cost = calculateToppingOrVeggiePrice(allVals);
+
+        // assign values to globals
         g_pizza_toppings = meat_cost
         ord_pizza_toppings = allVals;
 
+        // calculate total price
         var total = calcTotal(g_pizza_veggies,g_pizza_sauce,g_pizza_cheese,g_pizza_toppings,g_pizza_crust,g_pizza_size)
+
+        //print info to Check pane
         $('.meat_row').html('<td class="item_desc">Meats: <br>' + allVals + '</td><td class="item_price">$' + meat_cost + '.00</td>')
         $('.total_row').html('<td class="item_desc">Total</td><td class="item_price">$' + total + '.00</td>');
     });
+
     $('.veggies').click(function() {
-        
+        // Get values from front-end
         var allVals = [];
         $('.veggies :checked').each(function() {
            allVals.push($(this).val());
         });
+        // calculate veggies cost
         var veggies_cost = calculateToppingOrVeggiePrice(allVals);
+
+        // assign values to globals
         g_pizza_veggies = veggies_cost
         ord_pizza_veggies = allVals;
+
+        //calculate total price
         var total = calcTotal(g_pizza_veggies,g_pizza_sauce,g_pizza_cheese,g_pizza_toppings,g_pizza_crust,g_pizza_size)
 
+        // print info to Check pane
         $('.veggies_row').html('<td class="item_desc">Veggies: <br>' + allVals + '</td><td class="item_price">$' + veggies_cost + '.00</td>')
         $('.total_row').html('<td class="item_desc">Total</td><td class="item_price">$' + total + '.00</td>');
     });
 
+    // Receipt button handler
     $('.receipt').click(function() {
       $('.modal-body').html(
         $('.receipt_table').html()
       );
     });
 
+    // place order button handler
     $('.place_order').click(function() {
       var pizza_order = new Pizza(ord_pizza_size,ord_pizza_crust,ord_pizza_toppings,ord_pizza_cheese,ord_pizza_sauce,ord_pizza_veggies);
       alert("The contents below are the new Pizza Object\n\n" + JSON.stringify(pizza_order));

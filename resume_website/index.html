@@ -16,6 +16,14 @@
  -->    <link rel="stylesheet" type="text/css" href="./lib/cluster-marker/MarkerCluster.css" />
     <link rel="stylesheet" type="text/css" href="./lib/cluster-marker/MarkerCluster.Default.css" />
 
+    <style type="text/css">
+        #about_pic {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+
   </head>
   <body>
 	<div class="container-fluid">
@@ -42,9 +50,38 @@
 	    		</ul>
 	  		</div>
 		</nav>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">About Me</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <img id="about_pic" src="./lib/img/myphoto.png">
+                <p>
+                <br>
+                    I am a dedicated husband to my wife, Jennifer, and dog father to Bowie, our year-old Miniature Australian Shepherd.
+                <br>
+                    Though I am a hardcore tech nerd, in my free time I am an avid guitar player and backpacker and frequently head into wilderness areas in the Pacific Northwest.
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
 		<div class="row top-row-menu-margin">
 			<div class="col-md-3">
-				<h3 class="skills-header" href="#">Nicholas D. Arnold</h3>
+				<h3 class="skills-header" data-toggle="modal" data-target="#exampleModal" href="#">Nicholas D. Arnold</h3>
 				<!-- <h4 class="skills-header">Abstract</h4> -->
 				<i class="fa fa-graduation-cap fa-3x" aria-hidden="true"></i>
 				<h6 class="skills-list">Full Stack Developer Bootcamp<br><small><a href="https://www.learncodinganywhere.com/" target="_blank" class="badge badge-warning">The Tech Academy (in progress)</a></small></h6>
@@ -384,5 +421,12 @@
 	<script type="text/javascript" src="./lib/js/map.js"></script>
     <script src="./lib/leaf/leaflet.js"></script>
     <script type='text/javascript' src='./lib/cluster-marker/leaflet.markercluster.js'></script>
+    <script type="text/javascript">
+        $('.skills-header').hover(function(){
+            $('.modal').modal({
+                show:true
+            })
+        })
+    </script>
   </body>
 </html>

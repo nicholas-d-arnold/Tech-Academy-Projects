@@ -1,0 +1,85 @@
+﻿@model List<FinalChallenge.Models.Client>
+@{
+    ViewBag.Title = "KnockoutJS & ASP.net";
+}
+
+<div class="container">
+
+    <h2>List of Clients</h2>
+    <br /><br />
+          <div class="row">
+              <div class="col-md-6">
+                  <h4>Add Client:</h4>
+                  <p>Full Name: <input id="add_Name" data-bind="" /></p>
+                  <p>Address: <input id="add_Address" data-bind="" /></p>
+                  <p>Phone: <input id="add_Phone" data-bind="" /></p>
+                  <button class="btn btn-primary" data-bind="click: addClient">Add</button>
+                  <br /><br />
+              </div>
+
+              <div class="col-md-6">
+                  <h4>Delete Record from Client List</h4>
+                  <div class="dropdown">
+                      <button class="btn dropdown-toggle btn-danger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Delete Record
+                      </button>
+                      <div class="dropdown-menu" data-bind="foreach: clientList">
+                          <div class="row">
+                              <a class="dropdown-item" style="padding-left:20px;" href="#" data-bind="text: Name, click: removeClient"></a>
+                          </div>
+                      </div>
+                  </div>
+                  <br /><br />
+              </div>
+              
+             
+              <hr />
+          </div>
+    <table class="table">
+        <thead>
+            <tr><th>Name</th><th>Address</th><th>Phone</th></tr>
+        </thead>
+
+        <tbody data-bind="foreach: clientList">
+            <tr>
+                <td data-bind="text: Name">-</td>
+                <td data-bind="text: Address">-</td>
+                <td data-bind="text: Phone">-</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+
+
+    var modelArray = @Html.Raw(Json.Encode(Model));
+
+    var observableArray = ko.observableArray(modelArray)
+
+    
+
+    self.addClient = function () {
+
+        var add_name = document.getElementById("add_Name");
+        var add_address = document.getElementById("add_Address");
+        var add_phone = document.getElementById("add_Phone");
+
+        self.observableArray.push({ Name: add_name.value, Address: add_address.value, Phone: add_phone.value });
+
+        add_name.value = "";
+        add_address.value = "";
+        add_phone.value = "";
+    };
+
+    self.removeClient = function () {
+        self.observableArray.remove(this);
+    };
+
+    ko.applyBindings({
+        clientList : observableArray
+    });
+
+
+
+</script>
+
